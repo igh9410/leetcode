@@ -1,33 +1,24 @@
 class Solution {
-    int[][] memo;
     public int minPathSum(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        memo = new int[m][n];
-        for (int[] row: memo) {
-            Arrays.fill(row, Integer.MAX_VALUE);
-        }
-     
-        return findMinPathSum(grid, m - 1, n - 1);
+        int[][] dp = new int[grid.length][grid[0].length];
+        return findPath(grid, dp, grid.length-1, grid[0].length-1);
+        
     }
     
-    public int findMinPathSum(int[][] grid, int row, int col) {
+    public int findPath(int[][] grid, int[][] dp, int row, int col) {
         if (row == -1 || col == -1) {
             return Integer.MAX_VALUE;
         }
+        if (row == 0 && col == 0) { // BASE CASE: reached the bottom-right corner
+            return grid[row][col];
+        } 
+        if (dp[row][col] == 0) {           
         
-        if (memo[row][col] != Integer.MAX_VALUE) {
-            return memo[row][col];
-        }        
-        int currentSum = grid[row][col];
-        if (row == 0 && col == 0) {
-            return currentSum;
+            int c1 = findPath(grid, dp, row - 1, col); // From up to down
+            int c2 = findPath(grid, dp, row, col - 1); // from left to right
+            int currentCost = grid[row][col];
+            dp[row][col] = Math.min(c1, c2) + currentCost;
         }
-        System.out.println(memo[row][col]);
-        int fromDown = findMinPathSum(grid, row - 1, col);
-        int fromLeft = findMinPathSum(grid, row, col - 1);
-        memo[row][col] = currentSum + Math.min(fromDown, fromLeft);
-        
-        return memo[row][col];
+        return dp[row][col];
     }
 }
