@@ -12,7 +12,7 @@ class Solution {
         while (start <= end) {
             int mid = start + (end - start) / 2;
             if (nums[mid] == target) {
-                if (mid >= 1 && nums[mid - 1] == target) {
+                if (mid >= 1 && nums[mid - 1] == target) { // ensure mid - 1 >= 0 to prevent array out of bound exception
                     end = mid - 1;
                 }
                 else {
@@ -34,7 +34,7 @@ class Solution {
         while (start <= end) {
             int mid = start + (end - start) / 2;
             if (nums[mid] == target) {
-                if (mid + 1 < nums.length && nums[mid + 1] == target) {
+                if (mid + 1 < nums.length && nums[mid + 1] == target) { // ensure mid + 1 < nums.length to prevent array out of bound exception
                     start = mid + 1;
                 }
                 else {
